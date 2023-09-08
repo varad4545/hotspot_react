@@ -213,6 +213,30 @@ const OrderPage = () => {
   };
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      window.location.href = "/login";
+      return;
+    }
+
+    let tokenData = {};
+
+    try {
+      tokenData = JSON.parse(atob(token.split(".")[1]));
+    } catch (error) {
+      console.error("Invalid token format:", error);
+      window.location.href = "/login";
+    }
+
+    if (tokenData.exp) {
+      const currentTimestamp = Math.floor(Date.now() / 1000);
+
+      if (currentTimestamp > tokenData.exp) {
+        localStorage.removeItem("token");
+        window.location.href = "/login";
+      }
+    }
+
     fetchData();
     const handleDocumentClick = (event) => {};
 
@@ -242,15 +266,16 @@ const OrderPage = () => {
   return (
     <div className="container">
       <div className="left-container">
-        <Link to="/add-product" className="order-link">
-          <div className="arrow-container-order">
-            <span className="arrow-order">&#x2190; Add Product</span>
-          </div>
-        </Link>
-        <button className="create-order-btn" onClick={handleOnClick}>
-          create order
-        </button>
-
+        <div className="btn-container">
+          <Link to="/add-product" className="order-link">
+            <div className="arrow-container-order">
+              <span className="arrow-order">&#x2190; Add Product</span>
+            </div>
+          </Link>
+          <button className="create-order-btn" onClick={handleOnClick}>
+            create order
+          </button>
+        </div>
         {showProductList ? (
           <div className="list-container">
             {products.slice(0, 10).map((product, index) => (
