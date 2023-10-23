@@ -251,3 +251,50 @@ i {
 .arrow-container-order:hover {
   color: #0056b3;
 }
+
+.arrow-container-order-sign {
+  font-size: 1.125em; /* Replaced "18px" with "1.125em" */
+  color: #000;
+  transition: color 0.3s ease;
+  position: absolute;
+  margin-left: 10%;
+  top: 0.625em; /* Replaced "10px" with "0.625em" */
+  left: 0.625em; /* Replaced "10px" with "0.625em" */
+  z-index: 1;
+}
+
+.arrow-container-order-sign:hover {
+  color: #0056b3;
+}
+
+.account-icon {
+  font-size: 1.125em; /* Replaced "18px" with "1.125em" */
+  color: #000;
+  transition: color 0.3s ease;
+  position: absolute;
+  margin-left: 42%;
+  top: 0.625em; /* Replaced "10px" with "0.625em" */
+  left: 0.625em; /* Replaced "10px" with "0.625em" */
+  z-index: 1;
+}
+
+.account-icon:hover {
+  color: #0056b3;
+}
+
+.menu {
+  border: solid;
+  font-size: 1.125em; /* Replaced "18px" with "1.125em" */
+  color: white;
+  transition: color 0.3s ease;
+  position: absolute;
+  margin-left: 42%;
+  top: 0.625em; /* Replaced "10px" with "0.625em" */
+  left: 0.625em; /* Replaced "10px" with "0.625em" */
+  z-index: 1;
+  background-color: #ffda57;
+  border-radius: 10px;
+}
+
+
+

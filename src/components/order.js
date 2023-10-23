@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "../styles/order.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faMinus, faUserCircle } from "@fortawesome/free-solid-svg-icons";
 import Form from "react-bootstrap/Form";
 import axios from "axios";
 import { Link } from "react-router-dom";
@@ -10,7 +10,6 @@ const OrderPage = () => {
   const [data, setData] = useState([]);
   const [products, setProducts] = useState([]);
   const [activeContainerIndex, setActiveContainerIndex] = useState(null);
-  const [selectedProductIndex, setSelectedProductIndex] = useState(0);
   const [showProductList, setShowProductList] = useState(false);
   const [currentCategory, setCurrentCategory] = useState(null);
   const [orderDetails, setOrderDetails] = useState({});
@@ -20,6 +19,13 @@ const OrderPage = () => {
   const [errorStatus, setErrorStatus] = useState(false);
   const containerRefs = useRef([]);
   const searchBarcodeRef = useRef(null);
+  const [addProductStatus, setAddProductStatus] = useState(true);
+  const [isAdmin, setAdminStatus ] = useState(false);
+  const [backStatus, setBackStatus] = useState(false);
+  const [menuStatus, setMenuStatus] = useState(false);
+  const [currentDate, setCurrentDate] = useState("");
+
+  let currentToken = localStorage.getItem('token');
 
   const activeContainerRef = useRef(null);
 
@@ -30,75 +36,88 @@ const OrderPage = () => {
       await axios.post(`http://localhost:${backendPort}/create-order`, {
         order_number: 1,
         status: "pending",
+      }, {
+        headers: {
+          Authorization: `Bearer ${currentToken}`,
+        },
       });
 
       fetchData();
     } catch (error) {
       console.error("Error fetching data:", error);
+      alert(error.response.data)
     }
   };
 
   const fetchData = async () => {
     axios
-      .get(`http://localhost:${backendPort}/get-orders`)
+      .get(`http://localhost:${backendPort}/get-orders`, {
+        headers: {
+          Authorization: `Bearer ${currentToken}`,
+        },
+      })
       .then((response) => {
         setData(response.data);
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
+        alert(error.response.data)
       });
   };
 
   const fetchProductsByCategory = async (category) => {
     try {
       const response = await axios.get(
-        `http://localhost:${backendPort}/get-products?category=${category}`
+        `http://localhost:${backendPort}/get-products?category=${category}`, {
+          headers: {
+            Authorization: `Bearer ${currentToken}`,
+          },
+        }
       );
       setProducts(response.data);
     } catch (error) {
       console.error("Error fetching products by category:", error);
+      alert(error.response.data)
     }
   };
 
-  const fetchOrderDetails = async (order_number) => {
+  const fetchOrderDetails = async (order_id) => {
     try {
       const response = await axios.get(
-        `http://localhost:${backendPort}/get-order-details?order_number=${order_number}`
+        `http://localhost:${backendPort}/get-order-details?order_id=${order_id}`, {
+          headers: {
+            Authorization: `Bearer ${currentToken}`,
+          },
+        }
       );
       return response.data;
     } catch (error) {
       console.error("Error fetching products by category:", error);
+      alert(error.response.data)
     }
   };
 
-  const handleQuantityClick = async (option, id, order_number) => {
+  const handleQuantityClick = async (option, id, order_id) => {
     try {
       await axios.put(`http://localhost:${backendPort}/change-quantity`, {
         id,
         option,
-        order_number,
+        order_id,
+      }, {
+        headers: {
+          Authorization: `Bearer ${currentToken}`,
+        },
       });
 
-      const response = await fetchOrderDetails(order_number);
+      const response = await fetchOrderDetails(order_id);
 
       setOrderDetails((prevOrderDetails) => ({
         ...prevOrderDetails,
-        [order_number]: response,
+        [response.order_number]: response,
       }));
     } catch (error) {
       console.error("Error fetching products by category:", error);
-    }
-  };
-
-  const fetchAndSetOrderDetails = async (orderNumber) => {
-    try {
-      const response = await fetchOrderDetails(orderNumber);
-      setOrderDetails((prevOrderDetails) => ({
-        ...prevOrderDetails,
-        [orderNumber]: response,
-      }));
-    } catch (error) {
-      console.error("Error fetching order details:", error);
+      alert(error.response.data)
     }
   };
 
@@ -112,6 +131,8 @@ const OrderPage = () => {
 
   const handleBoxContainerClick = (category) => {
     setShowProductList(true);
+    setAddProductStatus(false);
+    setBackStatus(true);
     setCurrentCategory(category);
     fetchProductsByCategory(category);
   };
@@ -122,6 +143,7 @@ const OrderPage = () => {
         setErrorStatus(true);
       } else {
         const orderDetails = {
+          order_id: data[activeContainerIndex].id,
           order_number: data[activeContainerIndex].order_number,
           product_name: product.name,
           product_price: product.price,
@@ -129,11 +151,16 @@ const OrderPage = () => {
         };
         await axios.post(
           `http://localhost:${backendPort}/create-order-details`,
-          orderDetails
+          orderDetails,
+          {
+            headers: {
+              Authorization: `Bearer ${currentToken}`,
+            },
+          }
         );
 
         data.forEach(async (item) => {
-          const response = await fetchOrderDetails(item.order_number);
+          const response = await fetchOrderDetails(item.id);
           setOrderDetails((prevOrderDetails) => ({
             ...prevOrderDetails,
             [item.order_number]: response,
@@ -142,12 +169,14 @@ const OrderPage = () => {
       }
     } catch (error) {
       console.error("Error fetching products by category:", error);
+      alert(error.response.data)
     }
   };
 
   const handleBarCodeProducts = async (product, currentCategory) => {
     try {
       const orderDetails = {
+        order_id: data[activeContainerIndex].id,
         order_number: data[activeContainerIndex].order_number,
         product_name: product.name,
         product_price: product.price,
@@ -155,11 +184,16 @@ const OrderPage = () => {
       };
       await axios.post(
         `http://localhost:${backendPort}/create-order-details`,
-        orderDetails
+        orderDetails,
+        {
+          headers: {
+            Authorization: `Bearer ${currentToken}`,
+          },
+        }
       );
 
       data.forEach(async (item) => {
-        const response = await fetchOrderDetails(item.order_number);
+        const response = await fetchOrderDetails(item.id);
         setOrderDetails((prevOrderDetails) => ({
           ...prevOrderDetails,
           [item.order_number]: response,
@@ -169,6 +203,7 @@ const OrderPage = () => {
       setSearchBarcode("");
     } catch (error) {
       console.error("Error fetching products by category:", error);
+      alert(error.response.data)
     }
   };
 
@@ -191,11 +226,17 @@ const OrderPage = () => {
   };
 
   const handleSubmit = async (e) => {
+    try {
     e.preventDefault();
 
     if (barCode.length === 13) {
       const response = await axios.get(
-        `http://localhost:${backendPort}/get-barcode-product?bar_code=${barCode}`
+        `http://localhost:${backendPort}/get-barcode-product?bar_code=${barCode}`,
+        {
+          headers: {
+            Authorization: `Bearer ${currentToken}`,
+          },
+        }
       );
 
       handleBarCodeProducts(response.data);
@@ -205,16 +246,56 @@ const OrderPage = () => {
 
     // Focus the search bar input field
     searchBarcodeRef.current.focus();
+   } catch(error) {
+      alert(error.response.data);
+   }
   };
 
-  const handleBlur = () => {
-    // Prevent the input field from losing focus when clicked outside
-    searchBarcodeRef.current.focus();
-  };
+  const handleLogout = async (e) => {
+    localStorage.removeItem('token');
+    window.location.href = "/"
+  }
+
+  const handleIconClick = async (e) => {
+    setMenuStatus(true);
+  }
+
+  
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (!token) {
+    const getCurrentDate =  (e) => {
+      const months = [
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec",
+      ];
+      const days = ["Sun", "Mon", "Tues", "Wed", "Thu", "Fri", "Sat"];
+  
+      const currentDate = new Date();
+      const day = days[currentDate.getDay()];
+      const date = currentDate.getDate();
+      const month = months[currentDate.getMonth()];
+      const year = currentDate.getFullYear();
+  
+      return `${day}, ${month} ${date}, ${year}`;
+    };
+
+    const todayDate = getCurrentDate();
+    setCurrentDate(todayDate);
+  },[])
+
+
+  useEffect(() => {
+    if (!currentToken) {
       window.location.href = "/login";
       return;
     }
@@ -222,30 +303,47 @@ const OrderPage = () => {
     let tokenData = {};
 
     try {
-      tokenData = JSON.parse(atob(token.split(".")[1]));
+      tokenData = JSON.parse(atob(currentToken.split(".")[1]));
     } catch (error) {
       console.error("Invalid token format:", error);
       window.location.href = "/login";
     }
 
+    if( tokenData.role === 'Admin' ) {
+      setAdminStatus(true);
+    }
+
     if (tokenData.exp) {
       const currentTimestamp = Math.floor(Date.now() / 1000);
-
       if (currentTimestamp > tokenData.exp) {
         localStorage.removeItem("token");
         window.location.href = "/login";
       }
+      fetchData();
     }
+  }, [])
 
-    fetchData();
-    const handleDocumentClick = (event) => {};
+  useEffect(() => {
+    const handleDocumentClick = (event) => {
+      if(event.target.classList.contains('search-box') && showProductList === false) {
+        searchBarcodeRef.current.blur();
+      }
+      else if ((event.target.classList.contains('btn-container') &&  (showProductList === false))){
+        searchBarcodeRef.current.focus();
+      }
+      else if (showProductList === false
+      ) {
+        searchBarcodeRef.current.focus();
+      }
+      
+    };
 
     document.addEventListener("click", handleDocumentClick);
 
     return () => {
       document.removeEventListener("click", handleDocumentClick);
     };
-  }, []);
+  }, [showProductList, menuStatus]);
 
   useEffect(() => {
     containerRefs.current = containerRefs.current.slice(0, data.length);
@@ -254,7 +352,7 @@ const OrderPage = () => {
   useEffect(() => {
     if (data.length > 0) {
       data.forEach(async (item) => {
-        const response = await fetchOrderDetails(item.order_number);
+        const response = await fetchOrderDetails(item.id);
         setOrderDetails((prevOrderDetails) => ({
           ...prevOrderDetails,
           [item.order_number]: response,
@@ -263,15 +361,69 @@ const OrderPage = () => {
     }
   }, [data, data.length]);
 
+  useEffect(() => {
+    // Calculate time until midnight
+    const now = new Date();
+    const midnight = new Date(now);
+    midnight.setHours(24, 0, 0, 0);
+    const msUntilMidnight = midnight.getTime() - now.getTime();
+
+    // Set a timer to refresh orders after midnight
+    const timerId = setTimeout(fetchData, msUntilMidnight);
+
+    // Clean up the timer when the component is unmounted
+    return () => clearTimeout(timerId);
+  })
+
   return (
     <div className="container">
       <div className="left-container">
         <div className="btn-container">
-          <Link to="/add-product" className="order-link">
-            <div className="arrow-container-order">
-              <span className="arrow-order">&#x2190; Add Product</span>
+          {isAdmin && addProductStatus && (
+            <Link to="/add-product" className="order-link">
+              <div className="arrow-container-order">
+                <span className="arrow-order">Add Product</span>
+              </div>
+            </Link>
+          )}
+          {isAdmin && addProductStatus && (
+            <Link to="/sign-up" className="order-link">
+              <div className="arrow-container-order-sign">
+                <span className="arrow-order-sign">Sign up</span>
+              </div>
+            </Link>
+          )}
+
+          {/* <div className="logout">
+              <span className="arrow-order-sign" onClick={handleLogout}>Log out</span>
+        </div> */}
+          <div className="account-icon">
+              <FontAwesomeIcon icon={faUserCircle} size="2x" onClick={handleIconClick}/>
+          </div> 
+           {
+            menuStatus && (
+              <div className='menu'>
+              <p onClick={handleLogout}>Logout</p>
+              <Link to="/reset-password">
+                <p>Reset Password</p>
+              </Link>
+             </div> 
+            )}
+           
+          {backStatus && (
+            <div
+              className="arrow-container-order"
+              onClick={() => {
+                setShowProductList(false);
+                setAddProductStatus(true);
+                if (backStatus === true) {
+                  setBackStatus(false);
+                }
+              }}
+            >
+              <span className="arrow-order">&#x2190;</span>
             </div>
-          </Link>
+          )}
           <button className="create-order-btn" onClick={handleOnClick}>
             create order
           </button>
@@ -298,37 +450,37 @@ const OrderPage = () => {
               onClick={() => handleBoxContainerClick("Milkshake")}
             >
               {" "}
-              <h2>Milkshake</h2>
+              <h2 className="heading">Milkshake</h2>
             </div>
             <div
               className="box"
               onClick={() => handleBoxContainerClick("Icescream")}
             >
-              <h2>Icescream</h2>
+              <h2 className="heading">Icescream</h2>
             </div>
             <div
               className="box"
               onClick={() => handleBoxContainerClick("Sandwiches")}
             >
-              <h2>Sandwiches</h2>
+              <h2 className="heading">Sandwiches</h2>
             </div>
             <div
               className="box"
               onClick={() => handleBoxContainerClick("Mastani")}
             >
-              <h2>Mastani</h2>
+              <h2 className="heading">Mastani</h2>
             </div>
             <div
               className="box"
               onClick={() => handleBoxContainerClick("Burgers")}
             >
-              <h2>Burgers</h2>
+              <h2 className="heading">Burgers</h2>
             </div>
             <div
               className="box"
               onClick={() => handleBoxContainerClick("Juices")}
             >
-              <h2>Juices</h2>
+              <h2 className="heading">Juices</h2>
             </div>
 
             <Form onSubmit={handleSubmit}>
@@ -341,7 +493,6 @@ const OrderPage = () => {
                   onChange={handleBarcodeChange}
                   value={barCode}
                   ref={searchBarcodeRef}
-                  onBlur={handleBlur}
                 />
               </Form.Group>
             </Form>
@@ -350,13 +501,14 @@ const OrderPage = () => {
       </div>
 
       <div className="right-container">
-        <p className="date">Tues, Aug 15, 2023</p>
+        <p className="date">{currentDate}</p>
         <input
           className="search-box"
           placeholder="   Search order..."
           value={searchInput}
           onChange={handleSearchChange}
         />
+
         <div className="scrollable-container">
           {filteredData.length === 0
             ? data.map((item, index) => {
@@ -396,7 +548,7 @@ const OrderPage = () => {
                                     handleQuantityClick(
                                       "plus",
                                       orderDetail.id,
-                                      orderDetail.order_number
+                                      orderDetail.order_id
                                     )
                                   }
                                 />
@@ -408,7 +560,7 @@ const OrderPage = () => {
                                     handleQuantityClick(
                                       "minus",
                                       orderDetail.id,
-                                      orderDetail.order_number
+                                      orderDetail.order_id
                                     )
                                   }
                                 />
@@ -459,7 +611,7 @@ const OrderPage = () => {
                                   handleQuantityClick(
                                     "plus",
                                     orderDetail.id,
-                                    orderDetail.order_number
+                                    orderDetail.order_id
                                   )
                                 }
                               />
@@ -471,7 +623,7 @@ const OrderPage = () => {
                                   handleQuantityClick(
                                     "minus",
                                     orderDetail.id,
-                                    orderDetail.order_number
+                                    orderDetail.order_id
                                   )
                                 }
                               />
@@ -493,14 +645,12 @@ const OrderPage = () => {
         </div>
       </div>
 
-      {
-        errorStatus && (
-          <div className="error-container-order">
-            <span className="exclamation-mark">!</span>
-            <p className="error-message-order"> Kindly Select an order</p>
-          </div>
-        )
-      }
+      {errorStatus && (
+        <div className="error-container-order">
+          <span className="exclamation-mark">!</span>
+          <p className="error-message-order"> Kindly Select an order</p>
+        </div>
+      )}
     </div>
   );
 };

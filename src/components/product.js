@@ -27,6 +27,7 @@ const AddProductPage = () => {
 
   const successContainerRef = useRef(null);
   const errorContainerRef = useRef(null);
+  let currentToken = localStorage.getItem('token');
 
   const handleDropdownChange = (event) => {
     setSelectedOption(event.target.value);
@@ -40,7 +41,6 @@ const AddProductPage = () => {
   };
 
   const handleErrorMessage = (errorMessage) => {
-    console.log("Eror: ", errorMessage);
     setErrorMessage(errorMessage);
     setErrorStatus(true);
   };
@@ -84,7 +84,11 @@ const AddProductPage = () => {
 
       const response = await axios.post(
         `http://localhost:${backendPort}/add-product`,
-        productData
+        productData, {
+          headers: {
+            Authorization: `Bearer ${currentToken}`,
+          }
+        }
       );
 
       if (response.status === 201) {
@@ -95,7 +99,7 @@ const AddProductPage = () => {
       }
     } catch (error) {
       console.error("Error:", error);
-      handleErrorMessage("An error occurred while processing your request.");
+      handleErrorMessage(error.response.data);
     }
   };
 
