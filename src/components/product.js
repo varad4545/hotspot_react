@@ -122,6 +122,30 @@ const AddProductPage = () => {
     };
   }, []);
 
+  useEffect(() => {
+    if (!currentToken) {
+      window.location.href = "/login";
+      return;
+    }
+
+    let tokenData = {};
+
+    try {
+      tokenData = JSON.parse(atob(currentToken.split(".")[1]));
+    } catch (error) {
+      console.error("Invalid token format:", error);
+      window.location.href = "/login";
+    }
+
+    if (tokenData.exp) {
+      const currentTimestamp = Math.floor(Date.now() / 1000);
+      if (currentTimestamp > tokenData.exp) {
+        localStorage.removeItem("token");
+        window.location.href = "/login";
+      }
+    }
+  }, [])
+
   return (
     <>
       <div className="main-container">
@@ -182,7 +206,7 @@ const AddProductPage = () => {
               />
             </div>
           )}
-          <button onClick={handleOnClick}>Add</button>
+          <button className="btn-add-product" onClick={handleOnClick}>Add</button>
         </div>
       </div>
     </>

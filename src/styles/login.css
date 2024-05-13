@@ -37,6 +37,10 @@
     margin: 0;
     padding: 0;
     background-color: #ffda57;
+    width: 40%;
+    border: none;
+    color: white;
+    border-radius: 10px;
 }
 
 .reset-text {

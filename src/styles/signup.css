@@ -32,7 +32,14 @@
 
 .btn-signup {
     margin-top: 30px; /* Add margin-top to the button */
+    background-color: #ffda57;
+    color: white;
+    width: 40%;
+    height: 20%;
+    border: none;
+    border-radius: 10px;
 }
+
 
 .success-container-signup {
     position: absolute;

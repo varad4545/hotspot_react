@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../styles/signup.css";
 import axios from "axios";
 import { Link } from "react-router-dom";
@@ -87,6 +87,30 @@ const SignupPage = () => {
     event.preventDefault();
     setRole(event.target.value);
   };
+
+  useEffect(() => {
+    if (!currentToken) {
+      window.location.href = "/login";
+      return;
+    }
+
+    let tokenData = {};
+
+    try {
+      tokenData = JSON.parse(atob(currentToken.split(".")[1]));
+    } catch (error) {
+      console.error("Invalid token format:", error);
+      window.location.href = "/login";
+    }
+
+    if (tokenData.exp) {
+      const currentTimestamp = Math.floor(Date.now() / 1000);
+      if (currentTimestamp > tokenData.exp) {
+        localStorage.removeItem("token");
+        window.location.href = "/login";
+      }
+    }
+  }, [])
 
   return (
     <>

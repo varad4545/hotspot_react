@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import "../styles/order.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus, faMinus, faUserCircle } from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faMinus, faUserCircle, faDrumstickBite, faTrash } from "@fortawesome/free-solid-svg-icons";
 import Form from "react-bootstrap/Form";
 import axios from "axios";
 import { Link } from "react-router-dom";
@@ -61,7 +61,7 @@ const OrderPage = () => {
       })
       .catch((error) => {
         console.error("Error fetching data:", error);
-        alert(error.response.data)
+        alert(error.response.data);
       });
   };
 
@@ -81,6 +81,26 @@ const OrderPage = () => {
     }
   };
 
+  const handleCompleteOrder = async (id) => {
+    const updateOrderStatus = 'completed'
+    const response = await axios.put(
+      `http://localhost:${backendPort}/update-order-status`,
+      {
+        id,
+        updateOrderStatus,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${currentToken}`,
+        },
+      }
+    );
+
+    if ( response.data ) {
+      fetchData();
+    }
+  }
+
   const fetchOrderDetails = async (order_id) => {
     try {
       const response = await axios.get(
@@ -98,6 +118,7 @@ const OrderPage = () => {
   };
 
   const handleQuantityClick = async (option, id, order_id) => {
+    console.log("IN QUAN")
     try {
       await axios.put(`http://localhost:${backendPort}/change-quantity`, {
         id,
@@ -110,10 +131,11 @@ const OrderPage = () => {
       });
 
       const response = await fetchOrderDetails(order_id);
-
+      console.log("response: ", response);
+      console.log("orderDetails: ", orderDetails);
       setOrderDetails((prevOrderDetails) => ({
         ...prevOrderDetails,
-        [response.order_number]: response,
+        [response[0].order_number]: response,
       }));
     } catch (error) {
       console.error("Error fetching products by category:", error);
@@ -175,13 +197,17 @@ const OrderPage = () => {
 
   const handleBarCodeProducts = async (product, currentCategory) => {
     try {
-      const orderDetails = {
-        order_id: data[activeContainerIndex].id,
-        order_number: data[activeContainerIndex].order_number,
-        product_name: product.name,
-        product_price: product.price,
-        category: "barcode-product",
-      };
+      let orderDetails;
+      if ( data[activeContainerIndex] ) {
+        orderDetails = {
+          order_id: data[activeContainerIndex].id,
+          order_number: data[activeContainerIndex].order_number,
+          product_name: product.name,
+          product_price: product.price,
+          category: "barcode-product",
+        };
+      
+
       await axios.post(
         `http://localhost:${backendPort}/create-order-details`,
         orderDetails,
@@ -200,10 +226,15 @@ const OrderPage = () => {
         }));
       });
 
+    }
+
       setSearchBarcode("");
+
     } catch (error) {
       console.error("Error fetching products by category:", error);
-      alert(error.response.data)
+      if ( error.response.data ) {
+        alert(error.response.data)
+      }
     }
   };
 
@@ -242,7 +273,7 @@ const OrderPage = () => {
       handleBarCodeProducts(response.data);
     }
 
-    setSearchBarcode("");
+    // setSearchBarcode("");
 
     // Focus the search bar input field
     searchBarcodeRef.current.focus();
@@ -258,6 +289,39 @@ const OrderPage = () => {
 
   const handleIconClick = async (e) => {
     setMenuStatus(true);
+  }
+
+  const handleDeleteOrderDetail = async (id, order_id) => {
+    try {
+      console.log("YO: ", id, order_id);
+      const response = await axios.delete(`http://localhost:${backendPort}/delete-order-detail?id=${id}`,  {
+        headers: {
+          Authorization: `Bearer ${currentToken}`,
+        },
+      });
+
+      if (response.data) {
+        setOrderDetails((prevOrderDetails) => {
+          const updatedOrderDetails = { ...prevOrderDetails };
+          console.log("updatedOrderDetails: ", updatedOrderDetails); 
+          const orderArray = updatedOrderDetails[order_id];
+          
+          // Find the index of the item you want to delete
+          const itemIndex = orderArray.findIndex(item => item.id === id);
+    
+          // If the item is found, remove it from the array
+          if (itemIndex > -1) {
+            orderArray.splice(itemIndex, 1);
+          }
+    
+          return updatedOrderDetails;
+        });
+      }
+
+    } catch (error) {
+      console.error("Error: ", error);
+      alert(error.response.data)
+    }
   }
 
   
@@ -331,7 +395,7 @@ const OrderPage = () => {
       else if ((event.target.classList.contains('btn-container') &&  (showProductList === false))){
         searchBarcodeRef.current.focus();
       }
-      else if (showProductList === false
+      else if (showProductList === false 
       ) {
         searchBarcodeRef.current.focus();
       }
@@ -393,6 +457,14 @@ const OrderPage = () => {
               </div>
             </Link>
           )}
+
+           <Link to="/view-all-orders" className="order-link">
+              <div className="arrow-container-all-orders" style ={{ marginLeft: isAdmin ? '17%' : '2%' }}>
+                <span className="arrow-order-all-orders">All Orders</span>
+              </div>
+            </Link>
+      
+           
 
           {/* <div className="logout">
               <span className="arrow-order-sign" onClick={handleLogout}>Log out</span>
@@ -544,6 +616,7 @@ const OrderPage = () => {
                               <p className="column">
                                 <FontAwesomeIcon
                                   icon={faPlus}
+                                  className="plus-icon-order"
                                   onClick={() =>
                                     handleQuantityClick(
                                       "plus",
@@ -556,11 +629,23 @@ const OrderPage = () => {
                               <p className="column">
                                 <FontAwesomeIcon
                                   icon={faMinus}
+                                  className="minus-icon-order"
                                   onClick={() =>
                                     handleQuantityClick(
                                       "minus",
                                       orderDetail.id,
                                       orderDetail.order_id
+                                    )
+                                  }
+                                />
+                              </p>
+                              <p className="column">
+                                <FontAwesomeIcon
+                                  icon={faTrash}
+                                  onClick={() =>
+                                    handleDeleteOrderDetail(
+                                      orderDetail.id,
+                                      item.order_number
                                     )
                                   }
                                 />
@@ -580,6 +665,7 @@ const OrderPage = () => {
                     <div className="end-container">
                       <p id="total">Total</p>
                       <p id="total"> Rs {totalPriceSum}</p>
+                      <button className="btn-complete-order" onClick={ () => handleCompleteOrder(item.id)}>Complete</button>
                     </div>
                   </div>
                 );
