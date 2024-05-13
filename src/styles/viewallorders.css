@@ -1,0 +1,167 @@
+.all-orders-main-container {
+    width: 100%;
+    height: 100vh;
+    background-color: #FFDA57;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    overflow-y: auto;
+}
+
+.scrollable-container-all-orders {
+    width: 100%;
+    height: 100%;
+    overflow-y: scroll;
+}
+
+.search-options {
+    display: flex;
+    flex-direction: row;
+    margin-top: 5%;
+    width: 70%;
+    height: 10%;
+}
+
+input {
+    height: 4vh;
+}
+
+select {
+    height: 7vh;
+}
+
+.search-icon {
+    height: 40%;
+    width: 30%;
+    margin-top: 1%;
+}
+
+.order-info {
+    display: flex;
+    flex-direction: column;
+    margin-top: 2%;
+    margin-left: 15%;
+    width: 70%;
+    height: 25vh;
+    background-color: white;
+    border-radius: 5px;
+}
+
+.details-heading {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    font-weight: bold;
+    margin-left: 2%;
+}
+
+.order-status-p {
+    margin-left: 12%;
+} 
+
+.order-date-p {
+    margin-left: 15%;
+} 
+
+.order-details-p {
+    margin-left: 11%;
+} 
+
+
+
+.details-info {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+
+}
+
+.details-info-1 {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.basic-order-info-container {
+    display: flex;
+    width: 50%;
+    flex-direction: column;
+}
+
+.basic-order-info {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+}
+
+.order-number-p {
+    margin-left: 4%;
+}
+
+.pending-p {
+    margin-left: 30%;
+}
+
+.date-p {
+    margin-left: 28%;
+}
+
+.order-details-all-orders {
+    display: flex;
+    flex-direction: column;
+    margin-left: 3%;
+    width: 40%;
+    height: 75%;
+    margin-top: 0;
+    overflow-y: auto;
+}
+
+.order-details-heading {
+    display: flex;
+    flex-direction: row;
+    font-weight: bold;
+    /* background-color: blue; */
+    justify-content: space-between;
+}
+
+.order-details-info {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.reset-text {
+    margin-right: 67%;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.reset-text:hover {
+    color: purple;
+}
+
+.edit-status-container {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    width: 100%;
+}
+
+.edit-status-select {
+    height: 5vh;
+    width: 20%;
+    margin-left: 2%;
+    margin-top: 1%;
+}
+
+.update-status-text {
+    color: blue;
+}
+
+.update-status-text:hover {
+    color: purple;
+
+}
+
+

@@ -27,6 +27,7 @@ const AddProductPage = () => {
 
   const successContainerRef = useRef(null);
   const errorContainerRef = useRef(null);
+  let currentToken = localStorage.getItem('token');
 
   const handleDropdownChange = (event) => {
     setSelectedOption(event.target.value);
@@ -40,7 +41,6 @@ const AddProductPage = () => {
   };
 
   const handleErrorMessage = (errorMessage) => {
-    console.log("Eror: ", errorMessage);
     setErrorMessage(errorMessage);
     setErrorStatus(true);
   };
@@ -84,7 +84,11 @@ const AddProductPage = () => {
 
       const response = await axios.post(
         `http://localhost:${backendPort}/add-product`,
-        productData
+        productData, {
+          headers: {
+            Authorization: `Bearer ${currentToken}`,
+          }
+        }
       );
 
       if (response.status === 201) {
@@ -95,7 +99,7 @@ const AddProductPage = () => {
       }
     } catch (error) {
       console.error("Error:", error);
-      handleErrorMessage("An error occurred while processing your request.");
+      handleErrorMessage(error.response.data);
     }
   };
 
@@ -117,6 +121,30 @@ const AddProductPage = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  useEffect(() => {
+    if (!currentToken) {
+      window.location.href = "/login";
+      return;
+    }
+
+    let tokenData = {};
+
+    try {
+      tokenData = JSON.parse(atob(currentToken.split(".")[1]));
+    } catch (error) {
+      console.error("Invalid token format:", error);
+      window.location.href = "/login";
+    }
+
+    if (tokenData.exp) {
+      const currentTimestamp = Math.floor(Date.now() / 1000);
+      if (currentTimestamp > tokenData.exp) {
+        localStorage.removeItem("token");
+        window.location.href = "/login";
+      }
+    }
+  }, [])
 
   return (
     <>
@@ -178,7 +206,7 @@ const AddProductPage = () => {
               />
             </div>
           )}
-          <button onClick={handleOnClick}>Add</button>
+          <button className="btn-add-product" onClick={handleOnClick}>Add</button>
         </div>
       </div>
     </>
