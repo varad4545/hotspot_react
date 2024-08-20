@@ -3,8 +3,11 @@ import "../styles/login.css";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import Joi from "joi";
+import icecream from '../images/ice-cream-login-page.png'
+import graph from '../images/graph (1).png'
 
 const backendPort = process.env.REACT_APP_BACKEND_PORT;
+console.log("Backend Port:", backendPort);
 
 const LoginPage = () => {
   const [password, setPassword] = useState("");
@@ -47,7 +50,11 @@ const LoginPage = () => {
       }
     } catch (error) {
       console.error("Error:", error);
-      setError(error.response.data);
+      if (error.response && error.response.data) {
+        setError(error.response.data);
+      } else {
+        setError("An unexpected error occurred.");
+      }
     }
   };
 
@@ -62,41 +69,59 @@ const LoginPage = () => {
 
   return (
     <>
-      <div className="login-main-container">
+    <div className="login-page">
+    <div className="login-main-container">
         {successState && (
           <div className="success-container-login">
             <span className="checkmark-login">&#x2713;</span>
             <p className="success-message-login">{successMessage}</p>
           </div>
         )}
-        <div className="login-container">
-          <h1>Login</h1>
-          <div className="form">
-            <input
-              type="text"
-              className="password"
-              placeholder="Username"
-              onChange={handleUsernameChange}
-            ></input>
-            <input
-              type="password"
-              className="password"
-              placeholder="Password"
-              onChange={handlePasswordChange}
-            ></input>
-            <div className="btn-container-login">
-              <button className="btn-login" onClick={handleOnClick}>
-                {" "}
-                Login
-              </button>
-              <Link to="/reset-password">
-                <p className="reset-text">Reset Password</p>
-              </Link>
-            </div>
-            {error && <p style={{ color: "red" }}>{error}</p>}
-          </div>
-        </div>
+        <div className="login-main-container">
+        <div className="image-container">
+        <img src={graph} alt="Graph" className="graph-image" />
+        <img src={icecream} alt=""  className="ice-cream-image" 
+  style={{ width: '400px', height: '500px' }}/>
+  </div>
+
+<div className="login-container">
+<h1>HOTSPOT</h1>
+
+  <h2>Login</h2>
+  <div className="form">
+    <input
+      type="text"
+      className="password"
+      placeholder="Username"
+      onChange={handleUsernameChange}
+    ></input>
+    <input
+      type="password"
+      className="password"
+      placeholder="Password"
+      onChange={handlePasswordChange}
+    ></input>
+    <div className="btn-container-login">
+      <div className="btn-of-login">
+      <button className="btn-login" onClick={handleOnClick}>
+        Login
+      </button>
       </div>
+    <div className="forget-pass-link">
+    <Link to="/reset-password" className="reset-text">
+        Reset Password
+      </Link>
+    </div>
+     
+    </div>
+    {error && <p className="error-message-login">{error}</p>}
+  </div>
+</div>
+        </div>
+      
+      </div>
+    </div>
+   
     </>
   );
 };

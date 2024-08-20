@@ -1,4 +1,4 @@
-body {
+/* body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
@@ -10,4 +10,517 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+} */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Alegreya:ital,wght@0,400..900;1,400..900&family=Aref+Ruqaa:wght@400;700&family=Island+Moments&family=Lobster&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap'); 
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+/*
+  Based on TailwindCSS recommendations,
+  consider using classes instead of the `@apply` directive
+  @see https://tailwindcss.com/docs/reusing-styles#avoiding-premature-abstraction
+*/
+
+
+/* LOGIN PAGE */
+
+.login-page{
+  @apply bg-[#ffda57] flex justify-center items-center  m-0 p-0 h-[100vh];
+}
+.login-main-container {
+  @apply flex flex-col items-center justify-center h-[100%] ;
+}
+.login-container {
+  @apply shadow-[0_4px_20px_rgba(0,0,0,0.1)] text-center w-[400px] p-[30px] rounded-[20px];
+  background: #ffffff;
+}
+.login-container h2 {
+  @apply text-[1.5em] text-[#ffda57] mb-5 font-bold;
+  font-family: "Montserrat", sans-serif;
+}
+.login-container h1 {
+  @apply text-[3em] text-[#f20c90] mb-5;
+  font-family: "Lobster", sans-serif;
+}
+.form {
+  @apply flex flex-col gap-5 justify-center items-center;
+}
+.form input {
+  @apply text-[1em] transition-[border] duration-[0.3s,box-shadow] delay-[0.3s] font-medium w-[250px] p-2.5 rounded-[10px] border-2 border-solid border-[#ffb347] focus:shadow-[0_0_10px_rgba(255,127,80,0.5)] focus:border-[#ff7f50] h-[50px];
+  outline: none;
+  font-family: "Montserrat", sans-serif;
+}
+.form input:focus {
+ @apply border-[#f20c90]
+}
+.btn-container-login {
+  @apply flex flex-col justify-between items-center mt-5;
+}
+.btn-login {
+  @apply bg-[#f20c90] text-white cursor-pointer transition-[background-color] duration-[0.3s,transform] delay-[0.3s] w-[150px] text-[0.9em] font-medium px-5 py-3 rounded-[10px] border-[none] hover:bg-[#e55337] hover:translate-y-[-3px];
+  font-family: "Montserrat", sans-serif;
+}
+.forget-pass-link {
+  @apply mt-[7%];
+}
+.reset-text {
+  @apply text-[#1e90ff] no-underline text-[0.9em] whitespace-nowrap font-medium hover:underline;
+  font-family: "Montserrat", sans-serif;
+}
+.success-container-login {
+  @apply flex flex-col items-center bg-emerald-100 border border-emerald-500 mb-5 p-5 rounded-[10px] border-solid;
+}
+.checkmark-login {
+  @apply text-[2em] text-emerald-500;
+}
+.success-message-login {
+  @apply text-[1em] text-emerald-800 mt-2.5;
+}
+.error-message-login {
+  @apply text-[red] mt-5;
+}
+
+.login-main-container{
+  @apply flex flex-row justify-between relative
+}
+
+.background-image {
+  @apply absolute w-full h-full bg-cover bg-center z-[1] left-0 top-0;
+}
+.ice-cream-image {
+  @apply relative z-[2];
+}
+
+.image-container {
+  @apply relative;
+}
+.graph-image {
+  @apply absolute w-[150%] h-[150%] z-[1] opacity-50 -translate-x-2/4 -translate-y-2/4 left-2/4 top-2/4;
+
+}
+
+/* SIGNUP PAGE  */
+.signup-main-container {
+  @apply w-full h-screen bg-[#ffda57] flex items-center justify-center;
+}
+.signup-container {
+  @apply shadow-[0_4px_20px_rgba(0,0,0,0.1)] text-center w-[400px] p-[30px] rounded-[20px];
+  background: #ffffff;
+}
+
+.signup-container h1 {
+  @apply text-[1.5em] text-[#f20c90] mb-5 font-bold;
+  font-family: "Montserrat", sans-serif;
+}
+
+.form-signup {
+  @apply flex flex-col gap-5 justify-center items-center;
+}
+.password-signup {
+  @apply text-[1em] transition-[border] duration-[0.3s,box-shadow] delay-[0.3s] font-medium w-[250px] p-2.5 rounded-[10px] border-2 border-solid border-[#ffb347] focus:shadow-[0_0_10px_rgba(255,127,80,0.5)] focus:border-[#ff7f50] h-[50px];
+  outline: none;
+  font-family: "Montserrat", sans-serif;
+}
+.btn-signup {
+  @apply bg-[#f20c90] text-white cursor-pointer transition-[background-color] duration-[0.3s,transform] delay-[0.3s] w-[150px] text-[0.9em] font-medium px-5 py-3 rounded-[10px] border-[none] hover:bg-[#e55337] hover:translate-y-[-3px];
+  font-family: "Montserrat", sans-serif;
+}
+.success-container-signup {
+  @apply absolute w-1/5 h-[10%] bg-[white] text-[black] flex justify-center items-center z-[1] ml-[40%] mt-[10%] rounded-[20px] border-[solid] border-[rgb(92,196,92)] left-0 top-0;
+}
+.sucess-message-signup {
+  @apply text-center;
+}
+.checkmark-signup {
+  @apply text-[green] text-2xl mr-2.5;
+}
+/* ORDER PAGE */
+
+.left-container,
+.right-container {
+  @apply flex-[1_1_300px] min-h-screen;
+}
+.container {
+  @apply w-full h-screen;
+}
+.order-container {
+  @apply flex bg-[#ffda57] flex-row;
+}
+.left-container {
+  @apply bg-[white] flex flex-col h-screen w-6/12;
+}
+.btn-container {
+  @apply flex items-center h-[13%] bg-[#f20c90] p-0;
+}
+.btn-container span {
+  @apply text-[large] text-[black];
+  font-family: "Lobster", sans-serif;
+}
+.create-order-btn {
+  @apply w-4/5 max-w-[200px] h-3/6 bg-[#f20c90] text-[#ffda57] shadow-[inset_0_-0.5625em_0.625em_-0.625em_#000000] text-[small] font-[bold] ml-[3%] mt-[4em] p-[0.5em] rounded-[20px] border-[none] hover:bg-[#2980b9];
+  font-family: "Montserrat", sans-serif;
+}
+.box-container {
+  @apply flex flex-wrap justify-between p-[3%];
+}
+.box {
+  @apply flex-[0_1_calc(33.33%_-_1em)] w-[calc(33.33%_-_2em)] bg-[#ffda57] shadow-[0px_0px_0.5em_rgba(0,0,0,0.2)] flex items-center justify-center h-10 mb-[5%] rounded-[10px];
+}
+.box h2 {
+  @apply text-[black] font-[bold] text-[small];
+  font-family: "Montserrat", sans-serif;
+}
+.right-container {
+  @apply flex bg-[#ffda57] flex-col h-screen w-6/12 overflow-y-auto;
+}
+.search-box {
+  @apply bg-[white] w-6/12 h-5 ml-[3%] my-[5%] px-0 py-[1em] rounded-[20px] border-[solid] border-[#c0c0c0];
+}
+.sub-container {
+  @apply bg-[white] flex flex-row justify-between h-[15em] mb-[1.25em] mx-[3%] rounded-[10px];
+}
+.sub-container.bordered {
+  @apply border-[0.125em] border-solid border-[black];
+}
+.start-container {
+  @apply w-[10%] flex justify-center items-center;
+}
+.end-container {
+  @apply w-1/5;
+}
+.btn-complete-order {
+  @apply bg-[#f20c90] h-[15%] w-[70%] text-[white] shadow-[inset_0_-0.5625em_0.625em_-0.625em_#000000] ml-[10%] rounded-[10px] border-[none];
+}
+.mid-container {
+  @apply flex flex-row w-[85%];
+}
+.order-details {
+  @apply bg-[white] w-full h-4/5 overflow-y-auto mt-[5%] border-[solid] border-[#e6e6e6];
+}
+i {
+  @apply mt-[0.9375em];
+  -webkit-text-stroke: 0.125em black;
+}
+.entry {
+  @apply flex flex-row justify-evenly;
+}
+.entry p {
+  @apply text-[rgb(84,82,82)] text-[0.8125em];
+}
+#plus-minus {
+  @apply text-[1.25em] font-[bold];
+}
+.column {
+  @apply flex-1 text-center text-[rgb(84,82,82)] text-[0.8125em];
+}
+#total {
+  @apply text-[1.25em] font-[bold] ml-[10%] mt-[1.875em];
+}
+#final-price {
+  @apply ml-[10%];
+}
+.date {
+  @apply justify-center text-[rgb(84,82,82)] items-center m-auto;
+}
+.list-container {
+  @apply flex flex-col ml-[3%] mt-[5%];
+}
+.list-entry {
+  @apply flex justify-between items-center text-center w-4/5 p-[0.625em] rounded-[10px];
+}
+.list-name {
+  @apply text-[1.125em] font-[bold] text-[#737067];
+}
+.list-price {
+  @apply text-[1em] text-[#666];
+}
+.add-button {
+  @apply bg-[#ffda57] text-[white] text-[1em] cursor-pointer transition-[background-color] duration-[0.3s] mt-[0.625em] px-[1.25em] py-[0.625em] rounded-[5px] border-[none] hover:bg-[#2474a8];
+}
+.error-container-order {
+  @apply fixed -translate-x-2/4 -translate-y-2/4 w-4/5 max-w-[300px] h-[10%] bg-[white] text-[black] flex justify-center items-center z-[1] ml-[40%] mt-[10%] rounded-[20px] border-[solid] border-[rgb(197,96,96)] left-2/4 top-2/4;
+}
+.error-message-order {
+  @apply text-center;
+}
+.arrow-container-order {
+  @apply text-[1.125em] text-black transition-[color] duration-[0.3s] ease-[ease] absolute z-[1] ml-[1%] left-[0.625em] top-[0.625em] hover:text-[#0056b3];
+}
+.arrow-container-order-sign {
+  @apply text-[1.125em] text-black transition-[color] duration-[0.3s] ease-[ease] absolute z-[1] ml-[10%] left-[0.625em] top-[0.625em] hover:text-[#0056b3];
+}
+.arrow-container-all-orders {
+  @apply text-[1.125em] text-black transition-[color] duration-[0.3s] ease-[ease] absolute z-[1] left-[0.625em] top-[0.625em] hover:text-[#0056b3];
+}
+.account-icon {
+  @apply text-[1.125em] text-black transition-[color] duration-[0.3s] ease-[ease] absolute z-[1] ml-[42%] left-[0.625em] top-[0.625em] hover:text-[#0056b3];
+}
+.menu {
+  @apply text-[1.125em] text-[white] transition-[color] duration-[0.3s] ease-[ease] absolute z-[1] bg-[#ffda57] ml-[42%] rounded-[10px] border-[solid] left-[0.625em] top-[0.625em];
+}
+@media (max-width: 768px) {
+  .order-container {
+    @apply flex-col;
+  }
+  .left-container,
+  .right-container {
+    @apply w-full;
+  }
+  .box {
+    @apply flex-[0_1_calc(50%_-_1em)];
+  }
+  .sub-container {
+    @apply flex-col h-auto;
+  }
+  .start-container,
+  .end-container,
+  .mid-container {
+    @apply w-full;
+  }
+}
+@media (max-width: 480px) {
+  .box {
+    @apply flex-[0_1_100%];
+  }
+  .create-order-btn {
+    @apply w-full max-w-none;
+  }
+  .list-entry {
+    @apply flex-col items-start;
+  }
+}
+
+/* RESET PASSWORD PAGE  */
+
+.reset-main-container {
+  @apply flex flex-col items-center justify-center h-full mt-[5%];
+}
+.reset-container {
+  @apply h-[80vh] bg-[white] flex flex-col items-center justify-center shadow-[0_4px_20px_rgba(0,0,0,0.1)] text-center max-w-[400px] gap-5 p-10 rounded-[20px];
+}
+.form-reset {
+  @apply w-6/12 flex flex-col items-center justify-center mt-[5%];
+}
+.reset-container h1 {
+  @apply text-[1.5em] text-[#f20c90] mb-5;
+  font-family: "Montserrat", sans-serif;
+}
+.reset-container input {
+  @apply text-[1em] transition-[border] duration-[0.3s,box-shadow] delay-[0.3s] font-medium w-[250px] mb-[13%] p-2.5 rounded-[10px] border-2 border-solid border-[#ffb347];
+  outline: none;
+  font-family: "Montserrat", sans-serif;
+}
+.foreset-container input:focus {
+  @apply shadow-[0_0_10px_rgba(255,127,80,0.5)] border-[#ffda57];
+}
+.btn-reset {
+  @apply bg-[#f20c90] text-white cursor-pointer transition-[background-color] duration-[0.3s,transform] delay-[0.3s] w-[150px] text-[0.9em] font-medium px-5 py-3 rounded-[10px] border-[none];
+  font-family: "Montserrat", sans-serif;
+}
+.password {
+  @apply w-4/5 m-0;
+}
+.success-container-reset {
+  @apply absolute w-1/5 h-[10%] bg-[white] text-[black] flex justify-center items-center z-[1] ml-[40%] mt-[10%] rounded-[20px] border-[solid] border-[rgb(92,196,92)] left-0 top-0;
+}
+.sucess-message-reset {
+  @apply text-center;
+}
+.checkmark-reset {
+  @apply text-[green] text-2xl mr-2.5;
+}
+
+
+/* ADD PRODUCT PAGE  */
+.main-container {
+  @apply w-full min-h-screen bg-[#ffda57] flex items-center justify-center flex-col p-4;
+}
+
+.title-addproduct h1 {
+  @apply font-bold text-xl sm:text-2xl md:text-3xl mb-3 text-[#f20c90];
+  font-family: "Montserrat", sans-serif;
+}
+
+.title-addproduct p {
+  @apply text-xs sm:text-sm font-semibold;
+  font-family: "Montserrat", sans-serif;
+}
+
+.title-addproduct {
+  @apply text-center mb-4;
+}
+
+.product-container {
+  @apply bg-white flex flex-col w-full max-w-4xl rounded-lg shadow-lg p-4;
+}
+
+.product-category {
+  @apply flex flex-col sm:flex-row justify-around flex-wrap gap-4;
+}
+
+.category-container {
+  @apply flex flex-col w-full sm:w-[30%] md:w-[22%] mb-4 sm:mb-0;
+}
+
+.category-container h3 {
+  @apply font-bold text-sm mb-2;
+  font-family: "Montserrat", sans-serif;
+}
+
+input, select {
+  @apply border w-full p-2 rounded-lg border-solid border-[#ccc];
+}
+
+.addproduct-btn-div {
+  @apply flex justify-center items-center mt-6;
+}
+
+.btn-add-product {
+  @apply w-full max-w-[150px] py-2 px-4 bg-[#f20c90] text-white rounded-lg border-none;
+  font-family: "Montserrat", sans-serif;
+}
+
+.error-container, .success-container {
+  @apply fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-4/5 max-w-md p-4 bg-white rounded-lg shadow-lg z-50;
+}
+
+.error-container {
+  @apply border-2 border-[#8b2020];
+}
+
+.success-container {
+  @apply border-2 border-[rgb(92,196,92)];
+}
+
+.error-message, .success-message {
+  @apply text-center text-sm;
+}
+
+.exclamation-mark {
+  @apply text-red-500 text-xl mr-2;
+}
+
+.checkmark {
+  @apply text-green-500 text-xl mr-2;
+}
+
+.arrow-container {
+  @apply text-2xl text-black transition-colors duration-300 absolute z-10 left-4 top-4 hover:text-[#0056b3];
+}
+
+@media (min-width: 640px) {
+  .product-container {
+    @apply p-6;
+  }
+  
+  .category-container {
+    @apply mt-0;
+  }
+}
+
+@media (min-width: 768px) {
+  .product-container {
+    @apply p-8;
+  }
+}
+
+/* VIEW ALL ORDERS PAGE  */
+
+.all-orders-main-container {
+  @apply w-full h-screen bg-[#FFDA57] flex flex-col items-center justify-start overflow-y-auto p-5;
+}
+.order-detail-columns {
+  @apply flex max-h-[150px] max-w-full overflow-x-auto overflow-y-auto border p-[5px] border-solid border-[#ddd];
+}
+.order-detail-column {
+  @apply flex-1 text-left whitespace-nowrap p-2.5;
+}
+.order-detail-column strong {
+  @apply block mb-[5px];
+}
+.order-detail-column div {
+  @apply mb-[5px];
+}
+.search-options {
+  @apply flex flex-row w-full max-w-[800px] h-auto items-center gap-10 mt-[5%];
+}
+.search-options input,
+.search-options select {
+  @apply h-10 box-border flex-1 px-2.5 py-0;
+}
+.order-number-wrapper {
+  @apply relative flex-1;
+}
+.search-icon {
+  @apply absolute -translate-y-2/4 cursor-pointer right-2 top-2/4;
+}
+.reset-button {
+  @apply bg-[#f20c90] text-[white] cursor-pointer text-base w-[150px] p-[5px] rounded-[10px] border-[none] hover:underline;
+}
+.order-table {
+  @apply w-full table-fixed border-spacing-0 border-separate;
+}
+.order-table th,
+.order-table td {
+  @apply text-left border overflow-hidden text-ellipsis whitespace-nowrap p-2.5 border-solid border-[#ddd];
+}
+.order-table th {
+  @apply bg-[#f2f2f2] font-[bold];
+}
+.scrollable-container-all-orders {
+  @apply max-h-[70vh] overflow-y-auto w-full max-w-[1000px];
+}
+.order-detail-item {
+  @apply px-0 py-[5px];
+}
+.order-detail-table {
+  @apply w-full border-spacing-0 border-separate;
+}
+.order-detail-item td {
+  @apply text-left p-[5px] border-[none];
+}
+.detail-name {
+  @apply w-3/5;
+}
+.detail-quantity,
+.detail-price {
+  @apply w-1/5 text-right;
+}
+.order-table td[colspan="4"] {
+  @apply w-full p-0;
+}
+.order-detail-table td {
+  @apply p-1 border-[none];
+}
+.order-info {
+  @apply flex flex-col w-[1000px] max-w-[1000px] bg-[white] shadow-[0px_2px_10px_rgba(0,0,0,0.1)] mt-[2%] p-5 rounded-[5px];
+}
+.edit-status-container {
+  @apply justify-center flex items-center mt-2.5;
+}
+.edit-status-select {
+  @apply w-auto mr-2.5;
+}
+.update-status-text {
+  @apply bg-[#f20c90] text-[white] rounded cursor-pointer transition-[background-color] duration-[0.3s] ease-[ease] px-2.5 py-[5px] border-[none] hover:bg-[#d1097e];
+}
+@media (max-width: 768px) {
+  .order-table {
+    @apply text-sm;
+  }
+  .order-table th,
+  .order-table td {
+    @apply p-[5px];
+  }
+  .edit-status-container {
+    @apply flex-col items-stretch;
+  }
+  .edit-status-select,
+  .update-status-text {
+    @apply w-full mx-0 my-[5px];
+  }
 }

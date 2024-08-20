@@ -1,4 +1,4 @@
-.main-container {
+/* .main-container {
   width: 100%;
   height: 100vh;
 }
@@ -8,6 +8,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
+}
+
+
+.title-addproduct h1{
+font-weight: bold;
 }
 .product-container {
   background-color: white;
@@ -117,4 +123,4 @@ select {
 
 .arrow-container:hover {
   color: #0056b3;
-}
+} */

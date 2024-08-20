@@ -1,83 +1,139 @@
-.login-main-container {
-    width: 100%;
-    height: 100vh;
-    background-color: #ffda57;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.login-container {
-    width: 40%;
-    height: 50vh;
-    background-color: white;
-    border-radius: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-}
-
-.form {
-    width: 50%;
-    display: flex;
-    margin-top: 5%;
-    flex-direction: column;
-}
-
-.btn-container-login {
-    margin-top: 5%;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    width: 90%;
-}
-
-.btn-login {
-    margin: 0;
-    padding: 0;
-    background-color: #ffda57;
-    width: 40%;
-    border: none;
-    color: white;
-    border-radius: 10px;
-}
-
-.reset-text {
-    color: blue;
-}
-
-.password {
-    margin: 0; /* Remove margin */
-    width: 80%;
-}
-
-.success-container-login {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 20%;
-    height: 10%;
-    background-color: white;
-    color: black;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1;
-    margin-left: 40%;
-    margin-top: 10%;
-    border-radius: 20px;
-    border: solid;
-    border-color: rgb(92, 196, 92);
-  }
-  
-  .sucess-message-login {
-    text-align: center;
-  }
-  
-  .checkmark-login {
-    color: green;
-    font-size: 24px;
-    margin-right: 10px;
-  }
-
+/* body { 
+  margin: 0; 
+  padding: 0; 
+  font-family: 'Poppins', sans-serif; 
+  background-color: #ffe5b4;
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
+  height: 100vh; 
+} 
+ 
+.login-main-container { 
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  justify-content: center; 
+  height: 100%; 
+} 
+ 
+.login-container { 
+  background: #ffffff; 
+  padding: 30px; 
+  border-radius: 20px; 
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); 
+  text-align: center; 
+  width: 100%; 
+  max-width: 400px; 
+} 
+ 
+.login-container h2 { 
+  margin-bottom: 20px; 
+  font-size: 1.5em; 
+  color: #ff7f50; 
+  font-family: "Montserrat", sans-serif; 
+} 
+ 
+.login-container h1 { 
+  margin-bottom: 20px; 
+  font-size: 3em; 
+  color: #d2691e; 
+  font-family: "Lobster", sans-serif; 
+} 
+ 
+.form { 
+  display: flex; 
+  flex-direction: column; 
+  gap: 20px; 
+  justify-content: center; 
+  align-items: center; 
+} 
+ 
+.form input { 
+  padding: 10px; 
+  font-size: 1em; 
+  border: 2px solid #ffb347;
+  border-radius: 10px; 
+  outline: none; 
+  transition: border 0.3s, box-shadow 0.3s; 
+  font-family: "Montserrat", sans-serif; 
+  font-weight: 500 ;
+ width: 250px;
+} 
+ 
+.form input:focus { 
+  border-color: #ff7f50; 
+  box-shadow: 0 0 10px rgba(255, 127, 80, 0.5); 
+} 
+ 
+.btn-container-login { 
+  display: flex; 
+  flex-direction: column; 
+  justify-content: space-between; 
+  align-items: center; 
+  margin-top: 20px; 
+} 
+ 
+.btn-login { 
+  padding: 12px 20px; 
+  background-color: #ff6347; 
+  color: #ffffff; 
+  border: none; 
+  border-radius: 10px; 
+  cursor: pointer; 
+  transition: background-color 0.3s, transform 0.3s; 
+  width: 150px; 
+  font-size: 0.9em; 
+  font-family: "Montserrat", sans-serif; 
+  font-weight: 500 
+ 
+} 
+ 
+.btn-login:hover { 
+  background-color: #e55337; 
+  transform: translateY(-3px); 
+} 
+ 
+.forget-pass-link{ 
+margin-top: 7%; 
+} 
+ 
+.reset-text { 
+  color: #1e90ff;  
+  text-decoration: none; 
+  font-size: 0.9em; 
+  white-space: nowrap; 
+  font-family: "Montserrat", sans-serif; 
+  font-weight: 500; 
+} 
+ 
+.reset-text:hover { 
+  text-decoration: underline; 
+} 
+ 
+.success-container-login { 
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  background-color: #d1fae5; 
+  border: 1px solid #10b981; 
+  padding: 20px; 
+  border-radius: 10px; 
+  margin-bottom: 20px; 
+} 
+ 
+.checkmark-login { 
+  font-size: 2em; 
+  color: #10b981; 
+} 
+ 
+.success-message-login { 
+  font-size: 1em; 
+  color: #065f46; 
+  margin-top: 10px; 
+} 
+ 
+.error-message-login { 
+  color: red; 
+  margin-top: 20px; 
+} */

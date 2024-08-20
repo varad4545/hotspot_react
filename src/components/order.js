@@ -440,7 +440,7 @@ const OrderPage = () => {
   })
 
   return (
-    <div className="container">
+    <div className="order-container">
       <div className="left-container">
         <div className="btn-container">
           {isAdmin && addProductStatus && (
@@ -496,9 +496,9 @@ const OrderPage = () => {
               <span className="arrow-order">&#x2190;</span>
             </div>
           )}
-          <button className="create-order-btn" onClick={handleOnClick}>
+          {/* <button className="create-order-btn" onClick={handleOnClick}>
             create order
-          </button>
+          </button> */}
         </div>
         {showProductList ? (
           <div className="list-container">
@@ -516,13 +516,20 @@ const OrderPage = () => {
             ))}
           </div>
         ) : (
+          <>
+          <div className="crt-btn">
+          <button className="create-order-btn" onClick={handleOnClick}>
+            Create Order
+          </button>
+          </div>
+
           <div className="box-container">
             <div
               className="box"
               onClick={() => handleBoxContainerClick("Milkshake")}
             >
               {" "}
-              <h2 className="heading">Milkshake</h2>
+              <h2 className="heading-h2">Milkshake</h2>
             </div>
             <div
               className="box"
@@ -569,6 +576,7 @@ const OrderPage = () => {
               </Form.Group>
             </Form>
           </div>
+          </>
         )}
       </div>
 

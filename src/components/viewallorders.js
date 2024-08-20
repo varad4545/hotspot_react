@@ -4,7 +4,6 @@ import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
-import Joi from "joi";
 
 const backendPort = process.env.REACT_APP_BACKEND_PORT;
 
@@ -17,7 +16,7 @@ const ViewAllOrdersPage = () => {
   const [orderDate, setOrderDate] = useState("");
   const [updateOrderStatus, setUpdateOrderStatus] = useState("");
 
-  let currentToken = localStorage.getItem('token');
+  let currentToken = localStorage.getItem("token");
 
   const fetchData = async (filter) => {
     try {
@@ -31,7 +30,6 @@ const ViewAllOrdersPage = () => {
           },
         });
       } else {
-        // Send filter parameters as query parameters
         const params = new URLSearchParams(filter).toString();
         response = await axios.get(`${baseUrl}?${params}`, {
           headers: {
@@ -41,7 +39,6 @@ const ViewAllOrdersPage = () => {
       }
       setOrderData(response.data);
 
-      // Fetching order details for each order
       for (let order of response.data) {
         const detailsResponse = await axios.get(
           `http://localhost:${backendPort}/get-all-order-details?order_id=${order.id}`,
@@ -64,7 +61,7 @@ const ViewAllOrdersPage = () => {
   const handleOrderNumberInput = (e) => {
     const value = e.target.value;
     if (!/^[0-9]*$/.test(value)) {
-      e.target.value = value.replace(/[^0-9]/g, ""); // Removing non-digit characters
+      e.target.value = value.replace(/[^0-9]/g, "");
     }
   };
 
@@ -110,7 +107,7 @@ const ViewAllOrdersPage = () => {
         setOrderData(updatedOrders);
       }
     } catch (error) {
-      console.error("Error fetching data:", error);
+      console.error("Error updating status:", error);
     }
   };
 
@@ -140,12 +137,12 @@ const ViewAllOrdersPage = () => {
         window.location.href = "/login";
       }
     }
-  }, [])
+  }, []);
 
   return (
-    <>
-      <div className="all-orders-main-container">
-        <div className="search-options">
+    <div className="all-orders-main-container">
+      <div className="search-options">
+        <div className="order-number-wrapper">
           <input
             placeholder="Order Number..."
             type="text"
@@ -153,111 +150,110 @@ const ViewAllOrdersPage = () => {
             pattern="^[0-9]+$"
             onInput={handleOrderNumberInput}
             onChange={(e) => setOrderNumber(e.target.value)}
-            value={orderNumber} // bind input value to state
+            value={orderNumber}
           />
-
-          <select
-            className="status-option"
-            placeholder="Status..."
-            onChange={(e) => setOrderStatus(e.target.value)}
-            value={orderStatus} // bind select value to state
-            defaultValue=""
-          >
-            <option value="" disabled>
-              Select a status...
-            </option>
-            <option value="pending">pending</option>
-            <option value="completed">completed</option>
-          </select>
-
-          <input
-            placeholder="Date..."
-            type="date"
-            className="date-option"
-            onChange={(e) => setOrderDate(e.target.value)}
-            value={orderDate} // bind input value to state
-          />
-
           <FontAwesomeIcon
             icon={faSearch}
             className="search-icon"
             onClick={handleSearch}
           />
         </div>
+        <select
+          className="status-option"
+          placeholder="Status..."
+          onChange={(e) => setOrderStatus(e.target.value)}
+          value={orderStatus}
+          defaultValue=""
+        >
+          <option value="" disabled>
+            Select a status...
+          </option>
+          <option value="pending">pending</option>
+          <option value="completed">completed</option>
+        </select>
 
-        <p className="reset-text" onClick={handleResetSearch}>
+        <input
+          placeholder="Date..."
+          type="date"
+          className="date-option"
+          onChange={(e) => setOrderDate(e.target.value)}
+          value={orderDate}
+        />
+
+        <button className="reset-button" onClick={handleResetSearch}>
           Reset
-        </p>
-
-        <div className="scrollable-container-all-orders">
-          {orderData &&
-            orderData.map((order, index) => (
-              <div className="order-info">
-                <div className="details-heading">
-                  <p>Order</p>
-                  <p className="order-status-p">Status</p>
-                  <p className="order-date-p">Date</p>
-                  <p className="order-details-p">Order details</p>
-                </div>
-                <div className="details-info">
-                  <div className="details-info-1">
-                    <div className="basic-order-info-container">
-                      <div className="basic-order-info">
-                        <p className="order-number-p">{order.order_number}</p>
-                        <p className="pending-p">{order.status}</p>
-                        <p className="date-p">8/10/23</p>
-                      </div>
-
-                      <div className="edit-status-container">
-                        <select
-                          className="edit-status-select"
-                          placeholder="Status..."
-                          onChange={(e) => setUpdateOrderStatus(e.target.value)}
-                          value={updateOrderStatus} // bind select value to state
-                          defaultValue=""
-                        >
-                          <option value="" disabled>
-                            Status...
-                          </option>
-                          <option value="pending">pending</option>
-                          <option value="completed">completed</option>
-                        </select>
-                        <p
-                          className="update-status-text"
-                          onClick={() => handleUpdateStatus(order.id)}
-                        >
-                          Update
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="order-details-all-orders">
-                      <div className="order-details-heading">
-                        <p className="order-name-p">Name</p>
-                        <p className="order-quantity-p">Quantity</p>
-                        <p className="order-price-p">Price</p>
-                      </div>
-                      {orderDetails[order.id] &&
-                        orderDetails[order.id].map((detail) => (
-                          <div className="order-details-info" key={detail.id}>
-                            {" "}
-                            {/* Assuming details have an 'id' */}
-                            <p>{detail.product_name}</p>
-                            <p>{detail.quantity}</p>
-                            <p>{detail.total_price}</p>
-                          </div>
-                        ))}
-                       <div>
-                        dnwpdn[2'd]
-                       </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
-        </div>
+        </button>
       </div>
-    </>
+
+      <div className="scrollable-container-all-orders">
+        {orderData &&
+          orderData.map((order) => (
+            <div className="order-info" key={order.id}>
+              <div className="order-inner-container"></div>
+              <table className="order-table">
+                <thead>
+                  <tr>
+                    <th>Order</th>
+                    <th>Status</th>
+                    <th>Date</th>
+                    <th>Order Details</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>{order.order_number}</td>
+                    <td>{order.status}</td>
+                    <td>8/10/23</td>
+                    <td>
+                      {orderDetails[order.id] && (
+                        <div className="order-detail-columns">
+                          <div className="order-detail-column">
+                            <strong>Name</strong>
+                            {orderDetails[order.id].map((detail) => (
+                              <div key={detail.id}>{detail.product_name}</div>
+                            ))}
+                          </div>
+                          <div className="order-detail-column">
+                            <strong>Quantity</strong>
+                            {orderDetails[order.id].map((detail) => (
+                              <div key={detail.id}>{detail.quantity}</div>
+                            ))}
+                          </div>
+                          <div className="order-detail-column">
+                            <strong>Price</strong>
+                            {orderDetails[order.id].map((detail) => (
+                              <div key={detail.id}>{detail.total_price}</div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div className="edit-status-container">
+                <select
+                  className="edit-status-select"
+                  onChange={(e) => setUpdateOrderStatus(e.target.value)}
+                  value={updateOrderStatus}
+                >
+                  <option value="" disabled>
+                    Status...
+                  </option>
+                  <option value="pending">pending</option>
+                  <option value="completed">completed</option>
+                </select>
+                <button
+                  className="update-status-text"
+                  onClick={() => handleUpdateStatus(order.id)}
+                >
+                  Update
+                </button>
+              </div>
+            </div>
+          ))}
+      </div>
+    </div>
   );
 };
 

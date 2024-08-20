@@ -1,4 +1,4 @@
-.signup-main-container {
+/* .signup-main-container {
     width: 100%;
     height: 100vh;
     background-color: #ffda57;
@@ -26,12 +26,12 @@
 }
 
 .password-signup {
-    margin: 0; /* Remove margin */
+    margin: 0; 
     width: 80%;
 }
 
 .btn-signup {
-    margin-top: 30px; /* Add margin-top to the button */
+    margin-top: 30px; 
     background-color: #ffda57;
     color: white;
     width: 40%;
@@ -68,4 +68,4 @@
     color: green;
     font-size: 24px;
     margin-right: 10px;
-  }
+  } */

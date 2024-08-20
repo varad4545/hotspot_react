@@ -154,20 +154,13 @@ const AddProductPage = () => {
             <span className="arrow">&#x2190;</span>
           </div>
         </Link>
-        {errorStatus && (
-          <div className="error-container" ref={errorContainerRef}>
-            <span className="exclamation-mark">!</span>
-            <p className="error-message">{errorMessage}</p>
-          </div>
-        )}
-        {successStatus && (
-          <div className="success-container" ref={successContainerRef}>
-            <span className="checkmark">&#x2713;</span>
-            <p className="success-message">{successMessage}</p>
-          </div>
-        )}
-
+      
+<div className="title-addproduct">
+  <h1>ADD A NEW ITEM HERE</h1>
+  <p>click on category to select an item and enter name of product and price of product</p>
+</div>
         <div className="product-container">
+          <div className="product-category">
           <div className="category-container">
             <h3>Category</h3>
             <select value={selectedOption} onChange={handleDropdownChange}>
@@ -206,8 +199,24 @@ const AddProductPage = () => {
               />
             </div>
           )}
-          <button className="btn-add-product" onClick={handleOnClick}>Add</button>
+          </div>
+         <div className="addproduct-btn-div">    
+         <button className="btn-add-product" onClick={handleOnClick}>Add</button>
+         </div>
+
         </div>
+          {errorStatus && (
+          <div className="error-container" ref={errorContainerRef}>
+            <span className="exclamation-mark">!</span>
+            <p className="error-message">{errorMessage}</p>
+          </div>
+        )}
+        {successStatus && (
+          <div className="success-container" ref={successContainerRef}>
+            <span className="checkmark">&#x2713;</span>
+            <p className="success-message">{successMessage}</p>
+          </div>
+        )}
       </div>
     </>
   );
