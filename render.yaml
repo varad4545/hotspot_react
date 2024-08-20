@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: hotspot-react-frontend
+    env: static
+    buildCommand: npm install
+    startCommand: npm run build
+    envVars:
+      - key: NODE_VERSION
+        value: 18.17.1  # You can specify the Node.js version here.
+    staticPublishPath: /build
