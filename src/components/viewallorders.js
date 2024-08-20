@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "../styles/viewallorders.css";
 import axios from "axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faSearch } from "@fortawesome/free-solid-svg-icons";
+// import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 
 const backendPort = process.env.REACT_APP_BACKEND_PORT;
@@ -152,11 +152,11 @@ const ViewAllOrdersPage = () => {
             onChange={(e) => setOrderNumber(e.target.value)}
             value={orderNumber}
           />
-          <FontAwesomeIcon
+          {/* <FontAwesomeIcon
             icon={faSearch}
             className="search-icon"
             onClick={handleSearch}
-          />
+          /> */}
         </div>
         <select
           className="status-option"
