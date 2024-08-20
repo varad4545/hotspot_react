@@ -622,7 +622,7 @@ const OrderPage = () => {
                               </p>
                               <p className="column">{orderDetail.quantity}</p>
                               <p className="column">
-                                <FontAwesomeIcon
+                                {/* <FontAwesomeIcon
                                   icon={faPlus}
                                   className="plus-icon-order"
                                   onClick={() =>
@@ -632,10 +632,10 @@ const OrderPage = () => {
                                       orderDetail.order_id
                                     )
                                   }
-                                />
+                                /> */}
                               </p>
                               <p className="column">
-                                <FontAwesomeIcon
+                                {/* <FontAwesomeIcon
                                   icon={faMinus}
                                   className="minus-icon-order"
                                   onClick={() =>
@@ -645,10 +645,10 @@ const OrderPage = () => {
                                       orderDetail.order_id
                                     )
                                   }
-                                />
+                                /> */}
                               </p>
                               <p className="column">
-                                <FontAwesomeIcon
+                                {/* <FontAwesomeIcon
                                   icon={faTrash}
                                   onClick={() =>
                                     handleDeleteOrderDetail(
@@ -656,7 +656,7 @@ const OrderPage = () => {
                                       item.order_number
                                     )
                                   }
-                                />
+                                /> */}
                               </p>
                               <p className="column">
                                 {orderDetail.total_price}
@@ -699,7 +699,7 @@ const OrderPage = () => {
                             <p className="column">{orderDetail.product_name}</p>
                             <p className="column">{orderDetail.quantity}</p>
                             <p className="column">
-                              <FontAwesomeIcon
+                              {/* <FontAwesomeIcon
                                 icon={faPlus}
                                 onClick={() =>
                                   handleQuantityClick(
@@ -708,10 +708,10 @@ const OrderPage = () => {
                                     orderDetail.order_id
                                   )
                                 }
-                              />
+                              /> */}
                             </p>
                             <p className="column">
-                              <FontAwesomeIcon
+                              {/* <FontAwesomeIcon
                                 icon={faMinus}
                                 onClick={() =>
                                   handleQuantityClick(
@@ -720,7 +720,7 @@ const OrderPage = () => {
                                     orderDetail.order_id
                                   )
                                 }
-                              />
+                              /> */}
                             </p>
                             <p className="column">{orderDetail.total_price}</p>
                           </div>
