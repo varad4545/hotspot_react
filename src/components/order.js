@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import "../styles/order.css";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus, faMinus, faUserCircle, faDrumstickBite, faTrash } from "@fortawesome/free-solid-svg-icons";
 import Form from "react-bootstrap/Form";
 import axios from "axios";
@@ -470,7 +470,7 @@ const OrderPage = () => {
               <span className="arrow-order-sign" onClick={handleLogout}>Log out</span>
         </div> */}
           <div className="account-icon">
-              <FontAwesomeIcon icon={faUserCircle} size="2x" onClick={handleIconClick}/>
+              {/* <FontAwesomeIcon icon={faUserCircle} size="2x" onClick={handleIconClick}/> */}
           </div> 
            {
             menuStatus && (

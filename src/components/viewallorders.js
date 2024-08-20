@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../styles/viewallorders.css";
 import axios from "axios";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 // import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 
